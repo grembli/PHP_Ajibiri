@@ -20,13 +20,13 @@ class ControladorAnuncio {
             $anuncio->setDescripcion(Utils::limpiar_texto_editor($_POST['texto']));
             $anuncio->setPrecio($_POST['precio']);
             $anuncio->setUsuarios_id(Sesion::obtener()->getId());
-            
+            $anuncio->setFotos($_POST['fotos']);
             
             if($anuncio->insertar()){
-                Utils::guardar_mensaje("Mensaje Creado");
+                Utils::guardar_mensaje("Anuncio Creado");
             }
             else{
-                Utils::guardar_mensaje("Error al insertar mensajes");
+                Utils::guardar_mensaje("Error al insertar anuncio");
             }
             header('location:'.RUTA.'listar_anuncios');
         }
@@ -77,27 +77,14 @@ class ControladorAnuncio {
         
     }
     public function ver(){
-        $mensaje = new Mensaje();
-        
+        $anuncio = new Anuncio();
+        $usuario = new Usuario();
         $id = filter_var($_GET['parametro1'],FILTER_SANITIZE_NUMBER_INT);
-        $mensaje->obtener($id);
-        $mensaje->cargar_usuario();
-        $mensaje->cargar_respuestas();
-        
-        require '../app/vistas/ver_mensaje.php';
-    }
-    public function responder(){
-        $mensaje = new Mensaje();
-        $mensaje->setTexto(Utils::limpiar_texto_editor($_POST['texto']));
-        $mensaje->setId_mensaje_padre(filter_var($_GET['parametro1'],FILTER_SANITIZE_NUMBER_INT));
-        $mensaje->setId_usuario(filter_var(Sesion::obtener()->getId()));
-         if ($mensaje->insertar()) {
-            Utils::guardar_mensaje("Respuesta insertada");
-        } else {
-            Utils::guardar_mensaje("La respuesta no se ha podido insertar");
+        $anuncio->obtener($id);
+        if(Sesion::existe()){
+            $usuario->obtener($anuncio->getUsuarios_id());
         }
-
-        header("location: " . RUTA ."listar_mensajes");
+        require '../app/vistas/ver_anuncio.php';
     }
 }
 
