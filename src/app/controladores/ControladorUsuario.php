@@ -6,29 +6,36 @@ class ControladorUsuario {
         
         if($_SERVER['REQUEST_METHOD']=='POST'){
             $usuario = new Usuario();
-            //Mirar los usuarios que no dejen meter campos vacios,aunque tenga required en el input
-            $usuario->setEmail($_POST['email']);//No hace falta limpiar ya que estan en los sets 
-            $usuario->setPassword(sha1($_POST['password']));
-            $usuario->setNombre($_POST['nombre']);
-            $usuario->setApellidos($_POST['apellidos']);
-            $usuario->setProvincia($_POST['provincia']);
-            $usuario->setTelefono($_POST['telefono']);
-            $usuario->copiar_foto_disco($_FILES['foto']['tmp_name'],$_FILES['foto']['name']);
-            $usuario->setCod_cookie(sha1(time()+rand()));
-            IF($usuario->insertar())//Se añande a la BBDD
-            {
-                Utils::guardar_mensaje("Usuario creado");
+            if(!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['nombre']) && !empty($_POST['apellidos'])){
+                $usuario->setEmail($_POST['email']);//No hace falta limpiar ya que estan en los sets 
+                $usuario->setPassword(sha1($_POST['password']));
+                $usuario->setNombre($_POST['nombre']);
+                $usuario->setApellidos($_POST['apellidos']);
+                $usuario->setProvincia($_POST['provincia']);
+                $usuario->setTelefono($_POST['telefono']);
+                    
+                $usuario->copiar_foto_disco($_FILES['foto']['tmp_name'],$_FILES['foto']['name']);
+                
+                $usuario->setCod_cookie(sha1(time()+rand()));
+                IF($usuario->insertar())//Se añande a la BBDD
+                {
+                    Utils::guardar_mensaje("Usuario creado");
+                }else{
+                    Utils::guardar_mensaje("Error al guardar el usuario");
+                }
+                header("location:".RUTA);
             }else{
-                Utils::guardar_mensaje("Error al guardar el usuario");
+                Utils::guardar_mensaje("Debes rellenar los campos obligatorios");
+                header("location:".RUTA);
             }
-            header("location:".RUTA);
         }else{
-            //Mostrar la vista dregistrar.php
+                //Mostrar la vista dregistrar.php
             require '../app/vistas/registrar.php';
-            
-        }
+            }
         
     }
+        
+    
 
     public function login() {
         //Recogemos los datos por post
@@ -61,7 +68,7 @@ class ControladorUsuario {
 
     public function comprobar_email(){
         $email = Utils::limpiar_texto($_GET['email']);
-        if($usuario->obtener_por_email($email))
+        if($usuario->obtener_usuario($email))
         {
             echo "existe";
         }
@@ -90,7 +97,7 @@ class ControladorUsuario {
 
     
     
-      /*public function obtener_provincias(){
+    /* public function obtener_provincias(){
         
         $provincias=Usuario::obtener_provincias();
          require '../app/vistas/registrar.php';
