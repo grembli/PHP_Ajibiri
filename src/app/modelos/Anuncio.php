@@ -219,6 +219,8 @@ class Anuncio {
         $descripcion = $this->getDescripcion();
         $Usuarios_id = $this->getUsuarios_id();
         $precio = $this->getPrecio();
+
+
         if (is_null($this->getFecha_creacion())) {
 
             $sql = "INSERT INTO anuncios (titulo, descripcion, precio, fecha_creacion, fecha_mod, Usuarios_id) VALUES (?,?,?,default,default,?)";
@@ -244,11 +246,32 @@ class Anuncio {
         }
         //Asignamos a la propiedad id el id asignado por la BD.
         $this->id = $consulta_preparada->insert_id;
-
+        $this->insertar_fotos();
         //Cerramos la conexión
         $con->close();
 
         return $resultado;
+    }
+
+    function insertar_fotos() {
+        $con = ConexionDB::conectar();
+        $fotos = $this->getFotos();
+
+        foreach ($fotos as $foto) {
+            $nombre = $foto['0'];
+            $principal = $foto['1'];
+            $Anuncios_id = $this->getId();
+
+            $sql = "Insert into fotos values(nombre = ?, principal = ?, Anuncios_id = ?)";
+            if (!$consulta_preparada = $con->prepare($sql)) {
+                die('Error al preparar la consulta: ' . $con->error);
+            }
+
+            $consulta_preparada->bind_param('sii', $nombre, $principal, $Anuncios_id);
+            if (!$resultado = $consulta_preparada->execute()) {
+                die("Error al ejecutar la consulta" . $con->error);
+            }
+        }
     }
 
 }
