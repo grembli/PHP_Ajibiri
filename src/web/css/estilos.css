@@ -2,16 +2,20 @@
 .formulario_index{
     margin-top: 12px;
 }
+  
 #foto_usuario{
     border-radius: 200px;
     height: 50px;
     background-color: whitesmoke;
     width: 60px;
 }
+#formulario_registrar{
+    margin: auto;
+}
 #formulario_registrar>input{
     display: flex;
     text-align: center;
-    margin-right: 2px;
+    margin:auto;
     width: 30%;
     margin-top: 10px;
     border: none;
@@ -62,3 +66,4 @@ background: #fff;
     margin-top: 5px;
     border-radius: 10px;
 }
+
