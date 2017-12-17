@@ -21,7 +21,6 @@ class Anuncio {
     private $fecha_modificacion;
     private $Usuarios_id;
     private $fotos;
-    private $usuario;
 
     function getId() {
         return $this->id;
@@ -87,20 +86,10 @@ class Anuncio {
         $this->fotos = $fotos;
     }
 
-    function getUsuario() {
-        return $this->usuario;
-    }
-
-    function setUsuario($usuario) {
-        $this->usuario = $usuario;
-    }
-
-    public function cargar_usuario() {
-        
-    }
-
     public function cargar_fotos() {
-        
+        $foto = new Foto();
+        $fotos = $foto->obtener($this->getId());
+        $this->setFotos($fotos);
     }
 
     function obtener($id) {
@@ -125,15 +114,15 @@ class Anuncio {
             die('Error al obtener el resultado: ' . $con->error);
         }
         //Obteniemos un array con los datos del usuario
-        if ($usuario_array = $resultado->fetch_assoc()) {
+        if ($anuncio_array = $resultado->fetch_assoc()) {
 
             //Asignamos los valores obtenidos de la BD a las propiedades del objeto
-            $this->setId_mensaje_padre($usuario_array['id_mensaje_padre']);
-            $this->setId_usuario($usuario_array['id_usuario']);
-            $this->setFecha($usuario_array['fecha']);
-            $this->setTexto($usuario_array['texto']);
-            $this->setTitulo($usuario_array['titulo']);
-            $this->setId($usuario_array['id']);
+            $this->setId($anuncio_array['id']);
+            $this->setTitulo($anuncio_array['titulo']);
+            $this->setDescripcion($anuncio_array['descripcion']);
+            $this->setFecha_creacion($anuncio_array['fecha_creacion']);
+            $this->setFecha_modificacion($anuncio_array['fecha_mod']);
+            $this->setUsuarios_id($anuncio_array['Usuarios_id']);
 
             //Cerramos la conexión 
             $con->close();
@@ -145,20 +134,43 @@ class Anuncio {
         }
     }
 
+    static function obtener_todos() {
+        $con = ConexionDB::conectar();
+        $sql = "select * from anuncios order by id desc";
+        $result = $con->query($sql);
+        if (!$result) {
+            die("Error en la sql" . $con->error);
+        } else {
+            while ($anuncio = $result->fetch_object("Anuncio")) {
+                $anuncio->cargar_fotos();
+                $anuncios_array[] = $anuncio;
+            }
+
+            if (!empty($anuncios_array)) {
+                return $anuncios_array;
+            } else {
+                return false;
+            }
+        }
+    }
+
     function actualizar() {
         //Conectamos con la BD
         $con = ConexionDB::conectar();
-        $sql = "UPDATE anuncio SET titulo=?, descripcion=?, default, id_usuario=?, id=mensaje_padre=? WHERE id=?";
+        $sql = "UPDATE anuncio SET titulo=?, descripcion=?, precio=?, fecha_mod=?, Usuarios_id=? "
+                . "WHERE id=?";
         //Preparamos la consulta
         if (!$consulta_preparada = $con->prepare($sql)) {
             die('Error al preparar la consulta: ' . $con->error);
         }
         //Asociamos parámetros
         $titulo = $this->getTitulo();
-        $texto = $this->getTexto();
-        $id_usuario = $this->getId_usuario();
-        $id_mensaje_padre = $this->getId_mensaje_padre();
-        $consulta_preparada->bind_param('ssii', $titulo, $texto, $id_usuario, $id_mensaje_padre);
+        $descripcion = $this->getDescripcion();
+        $precio = $this->getId_usuario();
+        $fecha_creacion = $this->getId_mensaje_padre();
+        $fecha_mod = $this->getFecha_modificacion();
+        $Usuarios_id = $this->getUsuarios_id();
+        $consulta_preparada->bind_param('ssisi', $titulo, $descripcion, $precio, $fecha_mod, $Usuarios_id);
         //Ejecutamos la consulta
         if (!$resultado = $consulta_preparada->execute()) {
             die("Error al ejecutar la consulta" . $con->error);
@@ -172,7 +184,7 @@ class Anuncio {
     function borrar($token) {
         if ($token = $_SESSION['token']) {
             $con = ConexionDB::conectar();
-            $sql = "DELETE FROM mensajes WHERE id= ?";
+            $sql = "DELETE FROM anuncios WHERE id= ?";
             //Preparamos la consulta
             if (!$consulta_preparada = $con->prepare($sql)) {
                 die('Error al preparar la consulta: ' . $con->error);
@@ -204,29 +216,25 @@ class Anuncio {
         //Preparamos la consulta
         //Asociamos parámetros
         $titulo = $this->getTitulo();
-        $texto = $this->getTexto();
-        $id_usuario = $this->getId_usuario();
-        if ($this->getId_mensaje_padre()) {
-            $id_mensaje_padre = $this->getId_mensaje_padre();
-        } else {
-            $id_mensaje_padre = null;
-        }
-        if (is_null($this->getFecha())) {
+        $descripcion = $this->getDescripcion();
+        $Usuarios_id = $this->getUsuarios_id();
+        $precio = $this->getPrecio();
+        if (is_null($this->getFecha_creacion())) {
 
-            $sql = "INSERT INTO mensajes (titulo, texto, fecha, id_usuario, id_mensaje_padre) VALUES (?,?,default,?,?)";
+            $sql = "INSERT INTO anuncios (titulo, descripcion, precio, fecha_creacion, fecha_mod, Usuarios_id) VALUES (?,?,?,default,default,?)";
             if (!$consulta_preparada = $con->prepare($sql)) {
                 die('Error al preparar la consulta: ' . $con->error);
             }
 
-            $consulta_preparada->bind_param('ssii', $titulo, $texto, $id_usuario, $id_mensaje_padre);
+            $consulta_preparada->bind_param('ssii', $titulo, $descripcion, $precio, $Usuarios_id);
         } else {
 
-            $sql = "INSERT INTO mensajes (titulo, texto, fecha, id_usuario, id_mensaje_padre) VALUES (?,?,default,?,?)";
+            $sql = "INSERT INTO anuncios (titulo, descripcion, precio, fecha_creacion, fecha_mod, Usuarios_id) VALUES (?,?,?,default,default,?)";
             if (!$consulta_preparada = $con->prepare($sql)) {
                 die('Error al preparar la consulta: ' . $con->error);
             }
 
-            $consulta_preparada->bind_param('ssii', $titulo, $texto, $id_usuario, $id_mensaje_padre);
+            $consulta_preparada->bind_param('ssii', $titulo, $descripcion, $precio, $Usuarios_id);
         }
 
 
