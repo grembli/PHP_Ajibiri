@@ -1,0 +1,3 @@
+# PHP_Ajibiri
+Trabajo de clase de 2º DAW, página estilo segundamano.
+Creada al mas puro estilo chiquito de la calzada, Jarl....
