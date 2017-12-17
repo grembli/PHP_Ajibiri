@@ -38,7 +38,7 @@ $mapa= array(
     'ver_anuncio'=>array('controlador'=>'ControladorAnuncio', 'metodo'=>'ver', 'privado'=>false),
     'cambiar_foto'=>array('controlador'=>'ControladorUsuario', 'metodo'=>'cambiar_foto', 'privado'=>true),
     'comprobar_email'=>array('controlador'=>'ControladorUsuario', 'metodo'=>'comprobar_email', 'privado'=>false),
-    'obtener_provincias'=>array('controlador'=>'ControladorUsuario', 'metodo'=>'obtener_provincias', 'privado'=>false),
+    
 );
 
 /*
