@@ -4,14 +4,14 @@ session_start();
 /**
  * Token
  */
-if(isset($_SESSION['token'])){
+/*if(isset($_SESSION['token'])){
     $token = time()+ rand(); 
     $_SESSION['token']=$token;
 }
 else{
     $token = time()+ rand(); 
     $_SESSION['token']=$token;
-}
+}*/
 
 /*
  * LIBRERÍAS Y CONFIGURACIÓN
@@ -26,11 +26,7 @@ require_once '../app/modelos/Foto.php';
 require_once '../app/modelos/Utils.php';
 require_once '../app/modelos/Sesion.php';
 
-/*  Lo hacemos con otra nomenclatura
-$mapa['registrar']['controlador']='ControladorUsuario';
-$mapa['registrar']['accion']='registrar';
-$mapa['registrar']['privado']=false;
-*/
+
 $mapa= array(
     'registrar'=>array('controlador'=>'ControladorUsuario', 'metodo'=>'registrar', 'privado'=>false),
     'login'=>array('controlador'=>'ControladorUsuario', 'metodo'=>'login', 'privado'=>false),
@@ -41,6 +37,8 @@ $mapa= array(
     'listar_anuncios'=>array('controlador'=>'ControladorAnuncio', 'metodo'=>'listar', 'privado'=>false),
     'ver_anuncio'=>array('controlador'=>'ControladorAnuncio', 'metodo'=>'ver', 'privado'=>false),
     'cambiar_foto'=>array('controlador'=>'ControladorUsuario', 'metodo'=>'cambiar_foto', 'privado'=>true),
+    'comprobar_email'=>array('controlador'=>'ControladorUsuario', 'metodo'=>'comprobar_email', 'privado'=>false),
+    'obtener_provincias'=>array('controlador'=>'ControladorUsuario', 'metodo'=>'obtener_provincias', 'privado'=>false),
 );
 
 /*

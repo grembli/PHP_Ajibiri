@@ -1,0 +1,64 @@
+ 
+.formulario_index{
+    margin-top: 12px;
+}
+#foto_usuario{
+    border-radius: 200px;
+    height: 50px;
+    background-color: whitesmoke;
+    width: 60px;
+}
+#formulario_registrar>input{
+    display: flex;
+    text-align: center;
+    margin-right: 2px;
+    width: 30%;
+    margin-top: 10px;
+    border: none;
+    background-color: none;
+}
+#formulario_registrar>input:focus{
+background: #fff; 
+    border:1px solid #555; 
+    box-shadow: 0 0 3px #aaa; 
+}
+.border{
+    border-bottom: 1px dotted grey;
+}
+
+.boton_submit{
+    width: 30%;
+    height: 50px;
+    border: none;
+}
+.anuncio{
+    margin-top: 20px;
+}
+.colores{
+    background-color: #022E0C;
+}
+.nombre_pagina{
+    color: #022E0C;
+    /*Añadir la fuente*/
+    font-family: sans-serif;
+    padding: 0px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    background-color: #B8B6B8;
+    border: 8px solid #022E0C;
+    border-right: 10px solid #022E0C;
+    border-left: 10px solid #022E0C;
+}
+.boton{
+    border: none;
+    background-color: #022E0C;
+    color:#9d9d9d;
+}
+.boton:hover{
+    color: white;
+}
+#foto_inicio{
+    padding: 2px;
+    margin-top: 5px;
+    border-radius: 10px;
+}
