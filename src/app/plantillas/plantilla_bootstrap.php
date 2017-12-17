@@ -45,27 +45,7 @@
                         }
                     });
                 });
-            $('#email').change(function(){  
-                //AJAX
-                $.ajax({
-                    url:"<?=RUTA?>comprobar_email",
-                    type:"GET",
-                    data:"email="+$('#email').val(),
-                    success:function(respuesta){
-                        if(respuesta=="existe")
-                        {
-                            alert("Ya existe ese email");
-                        }
-                    }/*,
-                    beforeSend:function(){
-                        $('#preloader').css('display','inline');
-                    },
-                    complete:function(){
-                        $('#preloader').css('display','none');
-                    }*/
                 });
-            });
-        });
     </script>
 </head>
 <body>
@@ -107,8 +87,8 @@
       <ul class="nav navbar-nav navbar-right">
           <li><form id="login" action="<?=RUTA?>login" method="post" class="formulario_index">
                  
-                      <input type="email" name="email" placeholder="email">
-                      <input type="password" name="password" placeholder="****">
+                  <input type="email" name="email" placeholder="email" style="color:black">
+                      <input type="password" name="password" placeholder="****" style="color:black">
                      <input type="submit" value="Iniciar" class="boton">
               
               </form></li> 
