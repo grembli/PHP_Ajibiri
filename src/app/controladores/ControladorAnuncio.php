@@ -70,11 +70,10 @@ class ControladorAnuncio {
     }
     public function listar(){
         //Obtener todos los mensajes
-        $mensajes = Mensaje::obtener_todos();
-        //$mensajes = Mensaje::obtener_todos();
+        $anuncios = Anuncio::obtener_todos();
         
         //Inculir la vista 
-        require '../app/vistas/listar_mensajes.php';
+        require '../app/vistas/listar_anuncios.php';
         
     }
     public function ver(){
@@ -101,3 +100,4 @@ class ControladorAnuncio {
         header("location: " . RUTA ."listar_mensajes");
     }
 }
+
