@@ -1,8 +1,20 @@
-<?php
+<?php ob_start(); ?>
+<?php if ($anuncios != false): ?>
+    <?php foreach ($anuncios as $anuncio): ?>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+<div class="col-sm-3 anuncio">
+            <a href="<?= RUTA ?>ver_mensaje/<?= $anuncio->getId() ?>"><p><?= $anuncio->getTitulo() ?></p></a>
+            <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+        </div>
+
+    <?php endforeach; ?>
+<?php else: ?>
+    <h1>No existe ningun anuncio aún.</h1>
+<?php endif; ?>
+<?php
+$contenido_vista = ob_get_clean();
+
+require '../app/plantillas/plantilla_bootstrap.php';
+?>
+
 
