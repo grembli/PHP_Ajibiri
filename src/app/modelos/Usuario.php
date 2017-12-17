@@ -167,6 +167,17 @@ class Usuario {
         
     }
     
+    function obtener_usuario($email) {
+    $con = ConexionDB::conectar();
+    $sql = "select * from usuarios where email = '$email'";
+    $resul = $con->query($sql);
+    if ($resul->num_rows) {
+        return $resul->fetch_assoc();
+    } else {
+        return false;
+    }
+}
+    
         function borrar(){
              $con = ConexionDB::conectar();
         $sql="DELETE FROM usuarios WHERE id= ?";
@@ -265,17 +276,38 @@ class Usuario {
             $nombre_foto = md5(time()+rand());
         }
         //Muevo el archivo de su ruta temporal a la carpeta definitiva
-        move_uploaded_file($origen_limpio, "imagenes/$nombre_foto.$extension");
+        
         
         //Cargo la imagen desde el disco
-        $recurso_imagen = imagecreatefromjpeg("imagenes/$nombre_foto.$extension");
-        //Redimensiono la imagen
-        $recurso_imagen_escalado = imagescale($recurso_imagen, 100);
-        //Guardamos la imagen redimensionada en disco
-        if(!imagejpeg($recurso_imagen_escalado,"imagenes/$nombre_foto.$extension"))
-        {
-            Utils::guardar_mensaje("Fallo al redimensionar la imagen");
-        }
+        
+      if($extension=="jpeg"){
+          
+          move_uploaded_file($origen_limpio, "imagenes/$nombre_foto.$extension");
+            $recurso_imagenjpeg = imagecreatefromjpeg("imagenes/$nombre_foto.$extension");
+            $recurso_imagen_escaladojpeg = imagescale($recurso_imagenjpeg, 100);
+            if(!imagejpeg($recurso_imagen_escaladojpeg,"imagenes/$nombre_foto.$extension")){
+                Utils::guardar_mensaje("Fallo al redimensionar la imagen");
+            }
+ 
+      }else{
+          if($extension=='png'){
+          move_uploaded_file($origen_limpio, "imagenes/$nombre_foto.$extension");
+            $recurso_imagenpng = imagecreatefrompng("imagenes/$nombre_foto.$extension");
+            $recurso_imagen_escaladopng = imagescale($recurso_imagenpng, 100);
+            if(!imagepng($recurso_imagen_escaladopng,"imagenes/$nombre_foto.$extension")){
+                Utils::guardar_mensaje("Fallo al redimensionar la imagen");
+            } 
+          }else{
+              Utils::guardar_mensaje("Fallo al guardar la imagen");
+          }
+      }
+        
+        
+
+        
+        
+        
+        
         
         
         //Metemos el nombre que le hemos dato a la foto en la propiedad para 
@@ -287,7 +319,7 @@ class Usuario {
     
     
     
-       /*  static function obtener_provincias(){
+      /* static function obtener_provincias(){
         $con = ConexionDB::conectar();
     $sql = "Select * from provincias";
     $result = $con->query($sql);
