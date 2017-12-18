@@ -38,9 +38,10 @@ class ControladorAnuncio {
         if($_SERVER['REQUEST_METHOD']=='POST'){
             
             $anuncio = new Anuncio();
-            $token = $_POST['token'];
             $anuncio->obtener($_POST['id']);
-            if($anuncio->borrar($token)){
+            print_r($anuncio);
+            die();
+            if($anuncio->borrar()){
                 header('location:'.RUTA);
             }
             else{
@@ -53,18 +54,18 @@ class ControladorAnuncio {
     public function editar(){
         if($_SERVER['REQUEST_METHOD']=='POST'){
             
-            $mensaje = new Mensaje();
-            $mensaje->setTitulo($_POST['titulo']);
-            $mensaje->setTexto($_POST['texto']);
-            $mensaje->setId_usuario(Sesion::obtener());
+            $anuncio = new Anuncio();
+            $anuncio->setTitulo($_POST['titulo']);
+            $anuncio->setTexto($_POST['texto']);
+            $anuncio->setId_usuario(Sesion::obtener());
             
-            if($mensaje->actualizar()){
-                Utils::guardar_mensaje("Mensaje Editado");
+            if($anuncio->actualizar()){
+                Utils::guardar_mensaje("Anuncio Editado");
             }
             else{
-                Utils::guardar_mensaje("Error al editar mensajes");
+                Utils::guardar_mensaje("Error al editar anuncio");
             }
-            header('location:'.RUTA.'listar_mensajes');
+            header('location:'.RUTA.'listar_anuncios');
             
         }
     }
