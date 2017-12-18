@@ -87,9 +87,10 @@ class Anuncio {
     }
 
     public function cargar_fotos() {
-        $foto = new Foto();
-        $fotos = $foto->obtener($this->getId());
-        $this->setFotos($fotos);
+
+        $array_fotos = Foto::obtener_todas($this->getId());
+        $this->setFotos($array_fotos);
+        print_r($array_fotos);
     }
 
     function obtener($id) {
@@ -167,7 +168,6 @@ class Anuncio {
         $titulo = $this->getTitulo();
         $descripcion = $this->getDescripcion();
         $precio = $this->getId_usuario();
-        $fecha_creacion = $this->getId_mensaje_padre();
         $fecha_mod = $this->getFecha_modificacion();
         $Usuarios_id = $this->getUsuarios_id();
         $consulta_preparada->bind_param('ssisi', $titulo, $descripcion, $precio, $fecha_mod, $Usuarios_id);
@@ -181,8 +181,8 @@ class Anuncio {
         return $resultado;
     }
 
-    function borrar($token) {
-        if ($token = $_SESSION['token']) {
+    function borrar() {
+     
             $con = ConexionDB::conectar();
             $sql = "DELETE FROM anuncios WHERE id= ?";
             //Preparamos la consulta
@@ -204,10 +204,7 @@ class Anuncio {
                 $con->close();
                 return false;
             }
-        } else {
-            Utils::guardar_mensaje("Token no igual");
-            header('location:' . RUTA);
-        }
+        
     }
 
     function insertar() {
@@ -219,8 +216,6 @@ class Anuncio {
         $descripcion = $this->getDescripcion();
         $Usuarios_id = $this->getUsuarios_id();
         $precio = $this->getPrecio();
-
-
         if (is_null($this->getFecha_creacion())) {
 
             $sql = "INSERT INTO anuncios (titulo, descripcion, precio, fecha_creacion, fecha_mod, Usuarios_id) VALUES (?,?,?,default,default,?)";
@@ -246,7 +241,7 @@ class Anuncio {
         }
         //Asignamos a la propiedad id el id asignado por la BD.
         $this->id = $consulta_preparada->insert_id;
-        $this->insertar_fotos();
+
         //Cerramos la conexión
         $con->close();
 
