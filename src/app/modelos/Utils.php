@@ -71,5 +71,20 @@ static function mostrar_mensaje() {
         $con->close();
         return $texto_limpio;
     }
+    
+      public function obtener_provincias(){
+        $con = ConexionDB::conectar();
+        $sql = "Select * from provincias";
+        $result = $con->query($sql);
+        if (!$result) { //Si la SQL está mal mostramos el error
+            die("Error en la sql: " . $con->error);
+        }
+        return $result->fetch_all(MYSQLI_ASSOC);
+        
+                
+         require '../app/vistas/listar_anuncios.php';
+        
+    }
+     
 }
 

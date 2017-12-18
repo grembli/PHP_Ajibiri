@@ -20,15 +20,6 @@ class Usuario {
     private $apellidos;
     private $telefono;
     private $provincia;
-    private $cod_cookie;
-    
-    function getCod_cookie() {
-        return $this->cod_cookie;
-    }
-
-    function setCod_cookie($cod_cookie) {
-        $this->cod_cookie = $cod_cookie;
-    }
 
         function getId() {
         return $this->id;
@@ -113,7 +104,6 @@ class Usuario {
         //Obtenemos un array con los datos del suario
         if($usuario_array=$resultado->fetch_assoc()){
         //Asignamos los valores obtenidos de la BD a las propiedades
-        $this->setCod_cookie($usuario_array['cod_cookie']);
         $this->setEmail($usuario_array['email']);
         $this->setFoto($usuario_array['foto']);
         $this->setPassword($usuario_array['password']);
@@ -149,7 +139,6 @@ class Usuario {
         //Obtenemos un array con los datos del suario
         if($usuario_array=$resultado->fetch_assoc()){
         //Asignamos los valores obtenidos de la BD a las propiedades
-        $this->setCod_cookie($usuario_array['cod_cookie']);
         $this->setEmail($usuario_array['email']);
         $this->setApellidos($usuario_array['apellidos']);
         $this->setNombre($usuario_array['nombre']);
@@ -166,17 +155,6 @@ class Usuario {
         }
         
     }
-    
-    function obtener_usuario($email) {
-    $con = ConexionDB::conectar();
-    $sql = "select * from usuarios where email = '$email'";
-    $resul = $con->query($sql);
-    if ($resul->num_rows) {
-        return $resul->fetch_assoc();
-    } else {
-        return false;
-    }
-}
     
         function borrar(){
              $con = ConexionDB::conectar();
@@ -202,7 +180,7 @@ class Usuario {
     }
         function insertar(){
         $con = ConexionDB::conectar();
-        $sql="INSERT INTO usuarios (email, password, nombre, apellidos, provincia, telefono, verificado, foto, cod_cookie) VALUES (?,?,?,?,?,?,?,?,?)";
+        $sql="INSERT INTO usuarios (email, password, nombre, apellidos, provincia, telefono, verificado, foto) VALUES (?,?,?,?,?,?,?,?)";
         //Preparamos la consulta
         if(!$consulta_preparada=$con->prepare($sql)){
             die("Error al preprarar la consulta: ".$con->error);
@@ -216,10 +194,9 @@ class Usuario {
         $email =$this->getEmail();
         $password =$this->getPassword();
         $foto= $this->getFoto();
-        $cod_cookie= $this->getCod_cookie();
         $verificado=null;
         //Asociamos parametros
-        $consulta_preparada->bind_param('sssssssss', $email,$password,$nombre,$apellidos,$provincia,$telefono,$verificado,$foto,$cod_cookie);
+        $consulta_preparada->bind_param('ssssssss', $email,$password,$nombre,$apellidos,$provincia,$telefono,$verificado,$foto);
         //Ejecutamos la consulta
        if(!$resultado=$consulta_preparada->execute()){
            die("error al ejecutar consulta ". $con->error);
@@ -249,7 +226,6 @@ class Usuario {
         $email =$this->getEmail();
         $password =$this->getPassword();
         $foto= $this->getFoto();
-        $cod_cookie= $this->getCod_cookie();
         $verificado=null;
         $id = $this->getId();
         $consulta_preparada->bind_param('si', $foto,$id);
@@ -302,16 +278,6 @@ class Usuario {
           }
       }
         
-        
-
-        
-        
-        
-        
-        
-        
-        //Metemos el nombre que le hemos dato a la foto en la propiedad para 
-        //que se inserte correctamente en la BBDD
         $this->setFoto("$nombre_foto.$extension");
     }
     
@@ -319,14 +285,7 @@ class Usuario {
     
     
     
-      /* static function obtener_provincias(){
-        $con = ConexionDB::conectar();
-    $sql = "Select * from provincias";
-    $result = $con->query($sql);
-    if (!$result) { //Si la SQL está mal mostramos el error
-        die("Error en la sql: " . $con->error);
-    }
+     
+    
 
-    return $result->fetch_all(MYSQLI_ASSOC);
-}*/
 }
