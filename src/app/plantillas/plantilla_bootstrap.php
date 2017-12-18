@@ -25,6 +25,30 @@
   <!--Scripts de ajax-->
     <script>
         $(document).ready(function(){
+             $('#email').change(function(){  
+                //AJAX
+                $.ajax({
+                    url:"comprobar_email.php",
+                    type:"GET",
+                    data:"email="+$('#email').val(),
+                    success:function(respuesta){
+                       
+                        if(respuesta=="existe")
+                        {
+                            alert("Ya existe ese email");
+                        }
+                    },
+                    beforeSend:function(){
+                       
+                        $('#preloader').css('display','inline');
+                    },
+                    complete:function(){
+                     
+                        $('#preloader').css('display','none');
+                    }
+                });
+            });
+            
             $('#foto_usuario').click(function(){
                     $('#input_foto').click();
                 });
@@ -72,6 +96,13 @@
         <li><a href="<?=RUTA?>listar_anuncios">Listado de anuncios</a></li>
         <li><a href="#">Mis anuncios</a></li>
         <li><a href="#">Poner un anuncio</a></li>
+        <li><select name="provincia" id="provincia" class="formulario_index" style="color:black">
+                            <option></option>
+                            <?php $provincias= Utils::obtener_provincias(); ?>
+                            <?php foreach ($provincias as $provincia): ?>
+                                <option value="<?php echo $provincia['id_provincia'] ?>" style="color:black"><?php echo $provincia['provincia'] ?></option>
+<?php endforeach; ?>
+                        </select></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
 		<li><a href="<?=RUTA?>logout"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesion</a></li>
@@ -83,6 +114,13 @@
       <ul class="nav navbar-nav">
           <li><img src="<?=RUTA?>web/imagenes/chiquito1.png" style="height: 50px; margin-left: 0px;" id="foto_inicio"/></li>
         <li><a href="<?=RUTA?>listar_anuncios">Inicio</a></li>
+         <li> <select name="provincia" id="provincia" style="color:black">
+                 <option ></option>
+                            <?php $provincias= Utils::obtener_provincias(); ?>
+                            <?php foreach ($provincias as $provincia): ?>
+                            <option value="<?php echo $provincia['id_provincia'] ?>" style="color:black"><?php echo $provincia['provincia'] ?></option>
+<?php endforeach; ?>
+                        </select></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
           <li><form id="login" action="<?=RUTA?>login" method="post" class="formulario_index">
@@ -101,10 +139,11 @@
   </div>
 </nav>
 
-<div class="jumbotron nombre_pagina">
+<div class="jumbotron nombre_pagina contenido">
   <div class="container text-center">
       <?php Utils::mostrar_mensaje()?>
-      <h1>Ajibiri</h1>
+      <p><img src="<?=RUTA?>web/imagenes/logo.png"</p>
+      <div class="separador"></div>
   </div>
 </div>
 
@@ -113,7 +152,7 @@
 
   
    <!--LISTAR IMAGENES--> 
-<div class="container-fluid bg-3 text-center">    
+<div class="container-fluid bg-3 text-center contenido">    
    <?= $contenido_vista;
                     ?>
 </div><br>
