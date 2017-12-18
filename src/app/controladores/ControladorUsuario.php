@@ -16,7 +16,6 @@ class ControladorUsuario {
                     
                 $usuario->copiar_foto_disco($_FILES['foto']['tmp_name'],$_FILES['foto']['name']);
                 
-                $usuario->setCod_cookie(sha1(time()+rand()));
                 IF($usuario->insertar())//Se añande a la BBDD
                 {
                     Utils::guardar_mensaje("Usuario creado");
@@ -66,19 +65,7 @@ class ControladorUsuario {
         header("location: ".RUTA);
     }
 
-    public function comprobar_email(){
-        $email = Utils::limpiar_texto($_GET['email']);
-        if($usuario->obtener_usuario($email))
-        {
-            echo "existe";
-        }
-        else
-        {
-            echo "noexiste";
-        }
-
-            sleep(1);
-    }
+ 
     
      public function cambiar_foto() {
         $nombre_temporal = $_FILES['foto']['tmp_name'];
@@ -97,12 +84,7 @@ class ControladorUsuario {
 
     
     
-    /* public function obtener_provincias(){
-        
-        $provincias=Usuario::obtener_provincias();
-         require '../app/vistas/registrar.php';
-        
-    }*/
+   
 }
 
 
