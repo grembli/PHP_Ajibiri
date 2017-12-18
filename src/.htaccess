@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^([a-zA-Z0-9_]*)$ web/index.php?accion=$1 [L]
+RewriteRule ^([a-zA-Z0-9_]*)/([a-zA-Z0-9_]+)$ web/index.php?accion=$1&parametro1=$2
+RewriteRule ^([a-zA-Z0-9_]*)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)$ web/index.php?accion=$1&parametro1=$2&parametro2=$3
