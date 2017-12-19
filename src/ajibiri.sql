@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-12-2017 a las 17:41:15
+-- Tiempo de generación: 19-12-2017 a las 22:57:07
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -43,10 +43,10 @@ CREATE TABLE `anuncios` (
 --
 
 INSERT INTO `anuncios` (`id`, `titulo`, `descripcion`, `precio`, `fecha_creacion`, `fecha_mod`, `Usuarios_id`) VALUES
-(1, 'Primer anuncio', 'asdadsa', 100, '2017-12-16 13:17:57', '2017-12-16 13:17:57', 1),
-(2, 'Segundo anuncio', 'asdsasd', 2200, '2017-12-16 13:18:18', '2017-12-16 13:18:18', 1),
-(3, 'Tercer anuncio', 'asdassa', 300, '2017-12-16 13:18:34', '2017-12-16 13:18:34', 1),
-(4, 'Cuarto anuncio', 'asdasd', 111, '2017-12-16 13:18:57', '2017-12-16 13:18:57', 1);
+(1, 'Primer anuncio', 'asdadsa', 100, '2017-12-16 13:17:57', '2017-12-16 13:17:57', 25),
+(2, 'Segundo anuncio', 'asdsasd', 2200, '2017-12-16 13:18:18', '2017-12-16 13:18:18', 25),
+(3, 'Tercer anuncio', 'asdassa', 300, '2017-12-16 13:18:34', '2017-12-16 13:18:34', 25),
+(4, 'Cuarto anuncio', 'asdasd', 111, '2017-12-16 13:18:57', '2017-12-16 13:18:57', 25);
 
 -- --------------------------------------------------------
 
@@ -142,20 +142,20 @@ CREATE TABLE `usuarios` (
   `password` varchar(400) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `apellidos` varchar(45) NOT NULL,
-  `provincia` varchar(45) NOT NULL,
+  `provincia` smallint(6) DEFAULT NULL,
   `telefono` varchar(45) NOT NULL,
   `verificado` varchar(4) DEFAULT NULL,
-  `foto` varchar(200) NOT NULL,
-  `cod_cookie` varchar(400) NOT NULL
+  `foto` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `email`, `password`, `nombre`, `apellidos`, `provincia`, `telefono`, `verificado`, `foto`, `cod_cookie`) VALUES
-(1, 'vicentegrn@hotmail.com', '8cb2237d0679ca88db6464eac60da96345513964', 'Vicente', 'Garcia-Romeral Nieto', 'Toledo', '992565646', NULL, 'f0a0031458f946873d7d9f18e1631d9e.jpg', '7feb6761c32b3f01b2b9aebd6b8afb00f724d169'),
-(2, 'jose@hotmail.com', '8cb2237d0679ca88db6464eac60da96345513964', 'Jose', 'Esquinas Ortiz', 'Toledo', '99669966', NULL, '12c79359a41c488343ab3b4fe517b593.jpg', '7c70681283349b7d73479e6447cb27be6c639f6b');
+INSERT INTO `usuarios` (`id`, `email`, `password`, `nombre`, `apellidos`, `provincia`, `telefono`, `verificado`, `foto`) VALUES
+(23, 'samuel@hotmail.com', '8cb2237d0679ca88db6464eac60da96345513964', 'Samuel', 'Garica', 39, '662565646', NULL, 'c69a2b1f2c8d25643f5b1131c2533eea.jpeg'),
+(24, 'vicentegrn@hotmail.com', '8cb2237d0679ca88db6464eac60da96345513964', 'Vicente', 'Garcia-Romeral Nieto', 2, '995656', NULL, '4eb5724914437c36f1e3fa53ecd533ba.png'),
+(25, 'a@hotmail.com', '8cb2237d0679ca88db6464eac60da96345513964', 'A', 'Ass', 48, '632512', NULL, '0809fe4bf4ef12df14839b3d7a8a85af.png');
 
 --
 -- Índices para tablas volcadas
@@ -189,7 +189,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
