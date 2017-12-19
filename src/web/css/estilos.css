@@ -1,5 +1,16 @@
 body{
-    background-color: #022E0C;
+    height: auto;
+background: rgba(226,226,226,1);
+background: -moz-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 100%);
+background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(226,226,226,1)), color-stop(0%, rgba(219,219,219,1)), color-stop(0%, rgba(254,254,254,1)), color-stop(100%, rgba(209,209,209,1)));
+background: -webkit-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 100%);
+background: -o-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 100%);
+background: -ms-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 100%);
+background: linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#d1d1d1', GradientType=1 );
+background-repeat: no-repeat;
+background-size:cover;
+min-height: 900px;
 } 
 
 .formulario_index{
@@ -19,7 +30,7 @@ body{
    text-align: center;
 }
 #formulario_registrar>input{
-    display: flex;
+    display: block;
     text-align: center;
     margin:auto;
     width: 400px;
@@ -59,6 +70,7 @@ select>option>p{
     background-color: #022E0C;
 }
 .nombre_pagina{
+   
     color: #022E0C;
     /*Añadir la fuente*/
     font-family: sans-serif;
@@ -91,14 +103,36 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', end
     border-radius: 10px;
 }
 .contenido{
-    width: 98%;
+    width: 90%;
     margin: auto;
     background-color: white;
 }
 .separador{
     border:2px solid #022E0C;
 }
+.separador2{
+     border:0.5px solid #022E0C;
+}
+.separador3{
+     border:0.5px solid #022E0C;
+     width: 50%;
+     margin: auto;
+}
 #texto_registro{
     font-size: 9px;
+}
+.precio{
+    
+}
+#iconos{
+    display: flex;
+    margin-left: 50px;
+}
+#iconos span{
+    color:green;
+    padding: 10px;
+}
+#iconos span:hover{
+    color:black;
 }
 
