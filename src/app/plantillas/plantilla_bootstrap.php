@@ -92,7 +92,7 @@
                 <input type="file" name="foto" id="input_foto" >
                 <input type="text" name="direccion_actual" value="<?= $_SERVER['REQUEST_URI']  ?>">
             </form>
-                 <?= Sesion::obtener()->getNombre()?>&numsp;<?= Sesion::obtener()->getApellidos()?></li>
+                 <?= Sesion::obtener()->getNombre(); echo ' ';?><?= Sesion::obtener()->getApellidos()?></li>
         <li><a href="<?=RUTA?>listar_anuncios">Listado de anuncios</a></li>
         <li><a href="#">Mis anuncios</a></li>
         <li><a href="#">Poner un anuncio</a></li>
@@ -138,21 +138,18 @@
       
   </div>
 </nav>
-
+<br>
+<br>
+<br>
 <div class="jumbotron nombre_pagina contenido">
   <div class="container text-center">
       <?php Utils::mostrar_mensaje()?>
       <p><img src="<?=RUTA?>web/imagenes/logo.png"</p>
-      <div class="separador"></div>
+      
   </div>
 </div>
-
-
-
-
-  
    <!--LISTAR IMAGENES--> 
-<div class="container-fluid bg-3 text-center contenido">    
+<div class="container-fluid bg-4 text-center contenido">    
    <?= $contenido_vista;
                     ?>
 </div><br>
