@@ -21,7 +21,16 @@ class Anuncio {
     private $fecha_modificacion;
     private $Usuarios_id;
     private $fotos;
+    private $usuario;
+    
+    function getUsuario() {
+        return $this->usuario;
+    }
 
+    function setUsuario($usuario) {
+        $this->usuario = $usuario;
+    }
+ 
     function getId() {
         return $this->id;
     }
@@ -182,29 +191,28 @@ class Anuncio {
     }
 
     function borrar() {
-     
-            $con = ConexionDB::conectar();
-            $sql = "DELETE FROM anuncios WHERE id= ?";
-            //Preparamos la consulta
-            if (!$consulta_preparada = $con->prepare($sql)) {
-                die('Error al preparar la consulta: ' . $con->error);
-            }
-            //Asociamos parámetros
-            $id = $this->getId();
-            $consulta_preparada->bind_param('i', $id);
-            //Ejecutamos la consulta
-            if (!$resultado = $consulta_preparada->execute()) {
-                die("Error al ejecutar la consulta" . $con->error);
-            }
-            //Comprobamos si se ha borrado algún usuario
-            if ($consulta_preparada->affected_rows) {
-                $con->close();
-                return true;
-            } else {
-                $con->close();
-                return false;
-            }
-        
+
+        $con = ConexionDB::conectar();
+        $sql = "DELETE FROM anuncios WHERE id= ?";
+        //Preparamos la consulta
+        if (!$consulta_preparada = $con->prepare($sql)) {
+            die('Error al preparar la consulta: ' . $con->error);
+        }
+        //Asociamos parámetros
+        $id = $this->getId();
+        $consulta_preparada->bind_param('i', $id);
+        //Ejecutamos la consulta
+        if (!$resultado = $consulta_preparada->execute()) {
+            die("Error al ejecutar la consulta" . $con->error);
+        }
+        //Comprobamos si se ha borrado algún usuario
+        if ($consulta_preparada->affected_rows) {
+            $con->close();
+            return true;
+        } else {
+            $con->close();
+            return false;
+        }
     }
 
     function insertar() {
@@ -267,6 +275,12 @@ class Anuncio {
                 die("Error al ejecutar la consulta" . $con->error);
             }
         }
+    }
+
+    function cargar_usuario() {
+        $usuario = new Usuario();
+        $usuario->obtener($this->getUsuarios_id());
+        $this->setUsuario($usuario);
     }
 
 }
