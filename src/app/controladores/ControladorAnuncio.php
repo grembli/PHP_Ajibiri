@@ -21,11 +21,11 @@ class ControladorAnuncio {
             $anuncio->setDescripcion(Utils::limpiar_texto_editor($_POST['texto']));
             $anuncio->setPrecio($_POST['precio']);
             $anuncio->setUsuarios_id(Sesion::obtener()->getId());
-            if(isset($_FILES['foto'])){
-                $fotos = array($_FILES['foto']['tmp_name'],$_FILES['foto1'],$_FILES['foto2'],$_FILES['foto3']);
+            if (isset($_FILES['foto'])) {
+                $fotos = array($_FILES['foto']['tmp_name'], $_FILES['foto1'], $_FILES['foto2'], $_FILES['foto3']);
                 $anuncio->setFotos($fotos);
             }
-            
+
             if ($anuncio->insertar()) {
                 Utils::guardar_mensaje("Anuncio Creado");
             } else {
@@ -42,11 +42,19 @@ class ControladorAnuncio {
 
             $anuncio = new Anuncio();
             $anuncio->obtener($_GET['parametro1']);
-            if ($anuncio->borrar()) {
-                header('location:' . RUTA);
-            } else {
-                Utils::guardar_mensaje("No se ha podido eliminar");
-                header('location:' . RUTA);
+            $id = $anuncio->getUsuarios_id();
+            if ($id== Sesion::obtener()->getId()) {
+                if ($anuncio->borrar()) {
+                    Utils::guardar_mensaje("Eliminado con exito");
+                    header('location:' . RUTA);
+                } else {
+                    Utils::guardar_mensaje("No se ha podido eliminar");
+                    header('location:' . RUTA);
+                }
+            }
+            else{
+                Utils::guardar_mensaje("No se ha podido eliminar porque no eres el creador");
+                 header('location:' . RUTA);
             }
         }
     }
@@ -82,7 +90,7 @@ class ControladorAnuncio {
         $id = filter_var($_GET['parametro1'], FILTER_SANITIZE_NUMBER_INT);
         $anuncio->obtener($id);
         $anuncio->cargar_usuario();
-        
+
         require '../app/vistas/ver_anuncio.php';
     }
 
