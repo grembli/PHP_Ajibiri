@@ -21,8 +21,11 @@ class ControladorAnuncio {
             $anuncio->setDescripcion(Utils::limpiar_texto_editor($_POST['texto']));
             $anuncio->setPrecio($_POST['precio']);
             $anuncio->setUsuarios_id(Sesion::obtener()->getId());
-            $anuncio->setFotos($_POST['fotos']);
-
+            if(isset($_FILES['foto'])){
+                $fotos = array($_FILES['foto']['tmp_name'],$_FILES['foto1'],$_FILES['foto2'],$_FILES['foto3']);
+                $anuncio->setFotos($fotos);
+            }
+            
             if ($anuncio->insertar()) {
                 Utils::guardar_mensaje("Anuncio Creado");
             } else {
@@ -35,12 +38,10 @@ class ControladorAnuncio {
     }
 
     public function borrar() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
             $anuncio = new Anuncio();
-            $anuncio->obtener($_POST['id']);
-            print_r($anuncio);
-            die();
+            $anuncio->obtener($_GET['parametro1']);
             if ($anuncio->borrar()) {
                 header('location:' . RUTA);
             } else {
